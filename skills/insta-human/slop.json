@@ -1,0 +1,2108 @@
+{
+ "version": "1.0-fa",
+ "note": "فرهنگ مشترک humanize.py و detect.py، دوزبانه. بخش انگلیسی همون فرهنگ اصلی instagram-agent-skill (Jake Schincariol, MIT)ئه؛ بخش فارسی (lang=fa) کلمه‌ها و ساختارهای متن ترجمه‌ای، کتابی و ماشینی فارسیه. نیم‌فاصله و نشانه‌های جهت (U+200C، U+200E، U+200F، U+061C) «keep» هستن و هیچ‌وقت پاک نمی‌شن. بلوک spoken فقط با --spoken اجرا می‌شه (برای سناریو و صداگذاری)، نه کپشن. آزادانه ویرایشش کن؛ مال خودته.",
+ "invisible": [
+  {
+   "cp": "U+200B",
+   "name": "ZERO WIDTH SPACE",
+   "action": "delete"
+  },
+  {
+   "cp": "U+200C",
+   "name": "ZERO WIDTH NON-JOINER",
+   "action": "keep",
+   "why": "Persian half-space (نیم‌فاصله). Deleting it breaks «می‌سازی» into «میسازی»."
+  },
+  {
+   "cp": "U+200D",
+   "name": "ZERO WIDTH JOINER",
+   "action": "keep-in-emoji",
+   "why": "Joins emoji sequences (👨‍💻). Deleted only when it is not between two emoji/symbols."
+  },
+  {
+   "cp": "U+2060",
+   "name": "WORD JOINER",
+   "action": "delete"
+  },
+  {
+   "cp": "U+FEFF",
+   "name": "ZERO WIDTH NO-BREAK SPACE / BOM",
+   "action": "delete"
+  },
+  {
+   "cp": "U+00AD",
+   "name": "SOFT HYPHEN",
+   "action": "delete"
+  },
+  {
+   "cp": "U+180E",
+   "name": "MONGOLIAN VOWEL SEPARATOR",
+   "action": "delete"
+  },
+  {
+   "cp": "U+061C",
+   "name": "ARABIC LETTER MARK",
+   "action": "keep",
+   "why": "Arabic letter mark, used for bidi in Persian text."
+  },
+  {
+   "cp": "U+200E",
+   "name": "LEFT-TO-RIGHT MARK",
+   "action": "keep",
+   "why": "Direction mark, needed in mixed Persian/English lines."
+  },
+  {
+   "cp": "U+200F",
+   "name": "RIGHT-TO-LEFT MARK",
+   "action": "keep",
+   "why": "Direction mark, needed in mixed Persian/English lines."
+  },
+  {
+   "cp": "U+E0000-U+E007F",
+   "name": "TAG CHARACTERS (invisible ASCII smuggling)",
+   "action": "delete"
+  },
+  {
+   "cp": "U+00A0",
+   "name": "NO-BREAK SPACE",
+   "action": "space"
+  },
+  {
+   "cp": "U+202F",
+   "name": "NARROW NO-BREAK SPACE",
+   "action": "space"
+  },
+  {
+   "cp": "U+2009",
+   "name": "THIN SPACE",
+   "action": "space"
+  },
+  {
+   "cp": "U+2007",
+   "name": "FIGURE SPACE",
+   "action": "space"
+  },
+  {
+   "cp": "U+2003",
+   "name": "EM SPACE",
+   "action": "space"
+  },
+  {
+   "cp": "U+2002",
+   "name": "EN SPACE",
+   "action": "space"
+  },
+  {
+   "cp": "U+2063",
+   "name": "INVISIBLE SEPARATOR",
+   "action": "delete"
+  }
+ ],
+ "typographic": [
+  {
+   "from": "—",
+   "name": "EM DASH",
+   "to": ", "
+  },
+  {
+   "from": "–",
+   "name": "EN DASH",
+   "to": "-"
+  },
+  {
+   "from": "‘",
+   "name": "LEFT SINGLE QUOTE",
+   "to": "'"
+  },
+  {
+   "from": "’",
+   "name": "RIGHT SINGLE QUOTE",
+   "to": "'"
+  },
+  {
+   "from": "“",
+   "name": "LEFT DOUBLE QUOTE",
+   "to": "\""
+  },
+  {
+   "from": "”",
+   "name": "RIGHT DOUBLE QUOTE",
+   "to": "\""
+  },
+  {
+   "from": "…",
+   "name": "HORIZONTAL ELLIPSIS",
+   "to": "..."
+  },
+  {
+   "from": "′",
+   "name": "PRIME",
+   "to": "'"
+  },
+  {
+   "from": "·",
+   "name": "MIDDLE DOT",
+   "to": "-"
+  },
+  {
+   "from": "•",
+   "name": "BULLET",
+   "to": "-"
+  },
+  {
+   "from": "→",
+   "name": "RIGHTWARDS ARROW",
+   "to": "->"
+  }
+ ],
+ "typographic_fa": [
+  {
+   "from": "—",
+   "name": "EM DASH",
+   "to": "، "
+  },
+  {
+   "from": "–",
+   "name": "EN DASH",
+   "to": "-"
+  },
+  {
+   "from": "“",
+   "name": "LEFT DOUBLE QUOTE",
+   "to": "«"
+  },
+  {
+   "from": "”",
+   "name": "RIGHT DOUBLE QUOTE",
+   "to": "»"
+  },
+  {
+   "from": "‘",
+   "name": "LEFT SINGLE QUOTE",
+   "to": "'"
+  },
+  {
+   "from": "’",
+   "name": "RIGHT SINGLE QUOTE",
+   "to": "'"
+  },
+  {
+   "from": "…",
+   "name": "HORIZONTAL ELLIPSIS",
+   "to": "..."
+  },
+  {
+   "from": "•",
+   "name": "BULLET",
+   "to": "-"
+  },
+  {
+   "from": "→",
+   "name": "RIGHTWARDS ARROW",
+   "to": "←"
+  }
+ ],
+ "normalize_fa": [
+  {
+   "from": "ي",
+   "to": "ی",
+   "name": "ARABIC YEH -> PERSIAN YEH"
+  },
+  {
+   "from": "ك",
+   "to": "ک",
+   "name": "ARABIC KAF -> PERSIAN KAF"
+  },
+  {
+   "from": "ى",
+   "to": "ی",
+   "name": "ALEF MAKSURA -> PERSIAN YEH"
+  },
+  {
+   "from": "٠١٢٣٤٥٦٧٨٩",
+   "to": "۰۱۲۳۴۵۶۷۸۹",
+   "name": "ARABIC-INDIC DIGITS -> PERSIAN DIGITS"
+  }
+ ],
+ "words": [
+  {
+   "find": "delve into",
+   "replace": "look at",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "delve",
+   "replace": "look",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "dive deep into",
+   "replace": "get into",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "deep dive",
+   "replace": "breakdown",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "leverage",
+   "replace": "use",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "leveraging",
+   "replace": "using",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "utilize",
+   "replace": "use",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "utilizing",
+   "replace": "using",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "harness",
+   "replace": "use",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "embark on",
+   "replace": "start",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "foster",
+   "replace": "build",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "facilitate",
+   "replace": "help",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "showcase",
+   "replace": "show",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "unlock",
+   "replace": "get",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "elevate",
+   "replace": "improve",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "streamline",
+   "replace": "simplify",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "spearhead",
+   "replace": "lead",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "underscore",
+   "replace": "show",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "underscores",
+   "replace": "shows",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "cultivate",
+   "replace": "build",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "amplify",
+   "replace": "boost",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "curate",
+   "replace": "pick",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "curated",
+   "replace": "picked",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "empower",
+   "replace": "let",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "revolutionize",
+   "replace": "change",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "transformative",
+   "replace": "big",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "robust",
+   "replace": "solid",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "seamless",
+   "replace": "clean",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "seamlessly",
+   "replace": "cleanly",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "pivotal",
+   "replace": "key",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "crucial",
+   "replace": "important",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "vital",
+   "replace": "important",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "comprehensive",
+   "replace": "complete",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "cutting-edge",
+   "replace": "new",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "game-changing",
+   "replace": "big",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "game-changer",
+   "replace": "big deal",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "groundbreaking",
+   "replace": "new",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "unparalleled",
+   "replace": "unmatched",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "invaluable",
+   "replace": "useful",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "meticulous",
+   "replace": "careful",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "meticulously",
+   "replace": "carefully",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "myriad of",
+   "replace": "many",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "myriad",
+   "replace": "many",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "multifaceted",
+   "replace": "complicated",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "holistic",
+   "replace": "whole",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "bespoke",
+   "replace": "custom",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "innovative",
+   "replace": "new",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "profound",
+   "replace": "big",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "remarkable",
+   "replace": "notable",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "compelling",
+   "replace": "convincing",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "tapestry",
+   "replace": "mix",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "realm",
+   "replace": "world",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "landscape",
+   "replace": "market",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "journey",
+   "replace": "process",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "testament to",
+   "replace": "proof of",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "cornerstone",
+   "replace": "base",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "beacon",
+   "replace": "signal",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "paradigm",
+   "replace": "model",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "synergy",
+   "replace": "overlap",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "ecosystem",
+   "replace": "system",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "treasure trove",
+   "replace": "pile",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "plethora of",
+   "replace": "lots of",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "plethora",
+   "replace": "lots",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "arsenal",
+   "replace": "set",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "north star",
+   "replace": "goal",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "moreover",
+   "replace": "also",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "furthermore",
+   "replace": "also",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "additionally",
+   "replace": "also",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "nevertheless",
+   "replace": "still",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "consequently",
+   "replace": "so",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "thus",
+   "replace": "so",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "hence",
+   "replace": "so",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "notably",
+   "replace": "",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "importantly",
+   "replace": "",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "ultimately",
+   "replace": "in the end",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "in essence",
+   "replace": "basically",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "in conclusion",
+   "replace": "so",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "when it comes to",
+   "replace": "with",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "in order to",
+   "replace": "to",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "a wide range of",
+   "replace": "many",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "it is worth noting that",
+   "replace": "note that",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "supercharge",
+   "replace": "speed up",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "skyrocket",
+   "replace": "raise",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "unleash",
+   "replace": "release",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "effortlessly",
+   "replace": "easily",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "captivating",
+   "replace": "interesting",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "stunning",
+   "replace": "good",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "breathtaking",
+   "replace": "striking",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "iconic",
+   "replace": "known",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "must-have",
+   "replace": "worth having",
+   "family": "adjectives",
+   "lang": "en"
+  },
+  {
+   "find": "no-brainer",
+   "replace": "obvious",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "hidden gem",
+   "replace": "good one",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "secret sauce",
+   "replace": "the actual method",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "ultimate guide",
+   "replace": "guide",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "level up",
+   "replace": "improve",
+   "family": "verbs",
+   "lang": "en"
+  },
+  {
+   "find": "hack",
+   "replace": "trick",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "شگفت‌انگیز",
+   "replace": "عجیب",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "شگفت انگیز",
+   "replace": "عجیب",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "باورنکردنی",
+   "replace": "عجیب",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "باور نکردنی",
+   "replace": "عجیب",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "فوق‌العاده",
+   "replace": "خیلی خوب",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "فوق العاده",
+   "replace": "خیلی خوب",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "بی‌نظیر",
+   "replace": "کم‌نظیر",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "انقلابی",
+   "replace": "تازه",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "متحول‌کننده",
+   "replace": "اثرگذار",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "متحول کننده",
+   "replace": "اثرگذار",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "قدرتمند",
+   "replace": "قوی",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "حیاتی",
+   "replace": "مهم",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "منحصربه‌فرد",
+   "replace": "خاص",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "منحصر به فرد",
+   "replace": "خاص",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "بی‌دردسر",
+   "replace": "راحت",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "جامع",
+   "replace": "کامل",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "کلیدی",
+   "replace": "اصلی",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "خیره‌کننده",
+   "replace": "قشنگ",
+   "family": "adjectives",
+   "lang": "fa"
+  },
+  {
+   "find": "بهره‌گیری",
+   "replace": "استفاده",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "بهره‌برداری",
+   "replace": "استفاده",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "راهکار",
+   "replace": "راه",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "راهکارها",
+   "replace": "راه‌ها",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "چشم‌انداز",
+   "replace": "آینده",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "اکوسیستم",
+   "replace": "فضا",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "ارتقا",
+   "replace": "بهتر کردن",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "ارتقاء",
+   "replace": "بهتر کردن",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "بهینه‌سازی",
+   "replace": "بهتر کردن",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "لذا",
+   "replace": "پس",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "بنابراین",
+   "replace": "پس",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "همچنین",
+   "replace": "تازه",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "علاوه بر این",
+   "replace": "تازه",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "به عبارت دیگر",
+   "replace": "یعنی",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "در واقع",
+   "replace": "راستش",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "از سوی دیگر",
+   "replace": "از اون طرف",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "در نتیجه",
+   "replace": "واسه همین",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "بپردازیم",
+   "replace": "بریم سراغ",
+   "family": "verbs",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌پردازیم",
+   "replace": "می‌ریم سراغ",
+   "family": "verbs",
+   "lang": "fa"
+  },
+  {
+   "find": "بهره ببرید",
+   "replace": "استفاده کنید",
+   "family": "verbs",
+   "lang": "fa"
+  },
+  {
+   "find": "بهره ببرید.",
+   "replace": "استفاده کنید.",
+   "family": "verbs",
+   "lang": "fa"
+  },
+  {
+   "find": "ارتقا دهید",
+   "replace": "بهترش کنید",
+   "family": "verbs",
+   "lang": "fa"
+  },
+  {
+   "find": "ارتقا بدید",
+   "replace": "بهترش کنید",
+   "family": "verbs",
+   "lang": "fa"
+  }
+ ],
+ "phrases": [
+  {
+   "find": "in today's fast-paced world",
+   "replace": "right now",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "in today's digital age",
+   "replace": "right now",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "in the ever-evolving landscape of",
+   "replace": "in",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "in the ever-changing world of",
+   "replace": "in",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "let's face it",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "here's the thing",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "picture this",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "imagine a world where",
+   "replace": "imagine if",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "it's no secret that",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "we've all been there",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "let that sink in",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "the choice is yours",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "food for thought",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "the future is here",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "what are your thoughts?",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "drop a comment below",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "at the end of the day",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "needle-moving",
+   "replace": "useful",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "move the needle",
+   "replace": "make a difference",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "a testament to",
+   "replace": "proof of",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "had the opportunity to",
+   "replace": "got to",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "i am excited to announce",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "i'm thrilled to share",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "i am humbled to",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "without further ado",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "buckle up",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "the harsh truth is",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "spoiler alert",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "read that again",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "you're welcome",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "save this for later",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "who's with me",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "stop scrolling",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "don't scroll past this",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "in this video i'm going to show you",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "in today's video",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "watch till the end",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "you won't believe",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "nobody is talking about this",
+   "replace": "few people do this",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "no one is talking about this",
+   "replace": "few people do this",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "this changed everything",
+   "replace": "this worked",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "this is your sign to",
+   "replace": "",
+   "family": "openers",
+   "lang": "en"
+  },
+  {
+   "find": "little did i know",
+   "replace": "",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "fast forward to today",
+   "replace": "now",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "and just like that",
+   "replace": "",
+   "family": "connectives",
+   "lang": "en"
+  },
+  {
+   "find": "the rest is history",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "run don't walk",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "trust me on this one",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "don't sleep on this",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "follow for more",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "hit follow for more",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "double tap if",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "tag someone who needs this",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "let me know in the comments",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "share this with someone who needs it",
+   "replace": "",
+   "family": "closers",
+   "lang": "en"
+  },
+  {
+   "find": "the algorithm loves",
+   "replace": "Instagram pushes",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "beat the algorithm",
+   "replace": "get reach",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "go viral overnight",
+   "replace": "get reach",
+   "family": "nouns",
+   "lang": "en"
+  },
+  {
+   "find": "در دنیای امروز",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "در دنیای پرشتاب امروز",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "در عصر دیجیتال",
+   "replace": "الان",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "در عصر هوش مصنوعی",
+   "replace": "الان",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "همانطور که می‌دانید",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "همان‌طور که می‌دانید",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "همونطور که می‌دونید",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "بیایید با هم",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "بیاید با هم",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "سلام به همه",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "سلام دوستان",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "دوستان عزیز",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "سلام عزیزان",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "امروز می‌خوام بهتون",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "امروز می‌خواهیم",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "امروز قراره",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "در این ویدیو",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "تو این ویدیو",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "توی این ویدیو",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "در این مقاله",
+   "replace": "",
+   "family": "openers",
+   "lang": "fa"
+  },
+  {
+   "find": "در نهایت",
+   "replace": "آخرش",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "به طور خلاصه",
+   "replace": "",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "در پایان",
+   "replace": "آخرش",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "امیدوارم مفید بوده باشه",
+   "replace": "",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "امیدوارم مفید بوده باشد",
+   "replace": "",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "امیدوارم لذت برده باشید",
+   "replace": "",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "فالو یادت نره",
+   "replace": "",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "لایک یادت نره",
+   "replace": "",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "سیو کن که گمش نکنی",
+   "replace": "",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "تا آخر ویدیو ببین",
+   "replace": "",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "تا آخر ببینید",
+   "replace": "",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "نظراتتون رو کامنت کنید",
+   "replace": "",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "حتماً امتحانش کنید",
+   "replace": "",
+   "family": "closers",
+   "lang": "fa"
+  },
+  {
+   "find": "لازم به ذکر است",
+   "replace": "",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "گفتنی است",
+   "replace": "",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "قابل ذکر است",
+   "replace": "",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "نکته‌ی جالب اینجاست که",
+   "replace": "",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "نکته جالب اینجاست که",
+   "replace": "",
+   "family": "connectives",
+   "lang": "fa"
+  },
+  {
+   "find": "سفر یادگیری",
+   "replace": "یاد گرفتن",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "محتوای ارزشمند",
+   "replace": "محتوای به‌دردبخور",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "دنیای هوش مصنوعی",
+   "replace": "AI",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "دنیای شگفت‌انگیز",
+   "replace": "",
+   "family": "nouns",
+   "lang": "fa"
+  },
+  {
+   "find": "بازی رو عوض می‌کنه",
+   "replace": "فرق داره",
+   "family": "verbs",
+   "lang": "fa"
+  },
+  {
+   "find": "بازی را تغییر می‌دهد",
+   "replace": "فرق دارد",
+   "family": "verbs",
+   "lang": "fa"
+  },
+  {
+   "find": "زندگیتو عوض می‌کنه",
+   "replace": "به دردت می‌خوره",
+   "family": "verbs",
+   "lang": "fa"
+  },
+  {
+   "find": "زندگیت رو عوض می‌کنه",
+   "replace": "به دردت می‌خوره",
+   "family": "verbs",
+   "lang": "fa"
+  }
+ ],
+ "spoken": [
+  {
+   "find": "می‌شود",
+   "replace": "می‌شه",
+   "lang": "fa"
+  },
+  {
+   "find": "نمی‌شود",
+   "replace": "نمی‌شه",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌توانید",
+   "replace": "می‌تونید",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌توانی",
+   "replace": "می‌تونی",
+   "lang": "fa"
+  },
+  {
+   "find": "نمی‌توانی",
+   "replace": "نمی‌تونی",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌تواند",
+   "replace": "می‌تونه",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌توانم",
+   "replace": "می‌تونم",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌خواهید",
+   "replace": "می‌خواید",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌خواهی",
+   "replace": "می‌خوای",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌خواهم",
+   "replace": "می‌خوام",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌خواهد",
+   "replace": "می‌خواد",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌دانید",
+   "replace": "می‌دونید",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌دانی",
+   "replace": "می‌دونی",
+   "lang": "fa"
+  },
+  {
+   "find": "نمی‌دانم",
+   "replace": "نمی‌دونم",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌دانم",
+   "replace": "می‌دونم",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌گوید",
+   "replace": "می‌گه",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌گویند",
+   "replace": "می‌گن",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌آید",
+   "replace": "میاد",
+   "lang": "fa"
+  },
+  {
+   "find": "نمی‌آید",
+   "replace": "نمیاد",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌رود",
+   "replace": "می‌ره",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌کند",
+   "replace": "می‌کنه",
+   "lang": "fa"
+  },
+  {
+   "find": "نمی‌کند",
+   "replace": "نمی‌کنه",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌کنند",
+   "replace": "می‌کنن",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌دهد",
+   "replace": "می‌ده",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌دهند",
+   "replace": "می‌دن",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌سازد",
+   "replace": "می‌سازه",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌سازند",
+   "replace": "می‌سازن",
+   "lang": "fa"
+  },
+  {
+   "find": "هستند",
+   "replace": "هستن",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌باشد",
+   "replace": "هست",
+   "lang": "fa"
+  },
+  {
+   "find": "می‌باشند",
+   "replace": "هستن",
+   "lang": "fa"
+  },
+  {
+   "find": "آن‌ها",
+   "replace": "اونا",
+   "lang": "fa"
+  },
+  {
+   "find": "آنها",
+   "replace": "اونا",
+   "lang": "fa"
+  },
+  {
+   "find": "این‌ها",
+   "replace": "اینا",
+   "lang": "fa"
+  },
+  {
+   "find": "اینها",
+   "replace": "اینا",
+   "lang": "fa"
+  },
+  {
+   "find": "چه‌طور",
+   "replace": "چطوری",
+   "lang": "fa"
+  },
+  {
+   "find": "چگونه",
+   "replace": "چطوری",
+   "lang": "fa"
+  },
+  {
+   "find": "اکنون",
+   "replace": "الان",
+   "lang": "fa"
+  },
+  {
+   "find": "هم‌اکنون",
+   "replace": "همین الان",
+   "lang": "fa"
+  },
+  {
+   "find": "زیرا",
+   "replace": "چون",
+   "lang": "fa"
+  },
+  {
+   "find": "اگر",
+   "replace": "اگه",
+   "lang": "fa"
+  },
+  {
+   "find": "را",
+   "replace": "رو",
+   "lang": "fa"
+  },
+  {
+   "find": "یک",
+   "replace": "یه",
+   "lang": "fa"
+  }
+ ],
+ "structures": [
+  {
+   "id": "not-just",
+   "regex": "(?i)\\bit'?s not (?:just|only) [^.!?\\n]{2,60}[,.] it'?s\\b",
+   "name": "\"It's not just X, it's Y\"",
+   "fix": "Say the one thing you actually mean. Delete the setup half.",
+   "lang": "en"
+  },
+  {
+   "id": "not-only",
+   "regex": "(?i)\\bnot only\\b[^.!?\\n]{2,80}\\bbut also\\b",
+   "name": "\"Not only X but also Y\"",
+   "fix": "Split into two sentences, or drop the weaker half.",
+   "lang": "en"
+  },
+  {
+   "id": "isnt-about",
+   "regex": "(?i)\\b(?:this|it) is(?:n'?t| not) about [^.!?\\n]{2,60}[.!] it'?s about\\b",
+   "name": "\"It isn't about X. It's about Y.\"",
+   "fix": "Lead with Y. The reversal is the tell.",
+   "lang": "en"
+  },
+  {
+   "id": "the-result",
+   "regex": "(?i)^\\s*(?:the result|the best part|the kicker|the catch)\\?\\s*$",
+   "name": "One-word rhetorical question line",
+   "fix": "Answer it inline instead of staging a reveal.",
+   "lang": "en"
+  },
+  {
+   "id": "heres-what",
+   "regex": "(?i)\\bhere'?s what (?:i|we) learned\\b",
+   "name": "\"Here's what I learned\"",
+   "fix": "State the lesson. Skip the announcement.",
+   "lang": "en"
+  },
+  {
+   "id": "triad",
+   "regex": "(?i)\\b\\w+, \\w+, and \\w+\\.",
+   "name": "Rule-of-three triad",
+   "fix": "Two items or four. Three is the model's default rhythm.",
+   "lang": "en"
+  },
+  {
+   "id": "rocket",
+   "regex": "[\\U0001F680\\U0001F525\\U0001F4A1\\u2728\\U0001F3AF]",
+   "name": "Rocket / fire / bulb / sparkle / dart emoji",
+   "fix": "One emoji max, and not one of these five.",
+   "lang": "en"
+  },
+  {
+   "id": "hashtag-wall",
+   "regex": "(?:#\\w+[ \\t]*){5,}",
+   "name": "Hashtag wall (5+)",
+   "fix": "Three hashtags. LinkedIn stopped rewarding the wall.",
+   "lang": "en"
+  },
+  {
+   "id": "as-an-ai",
+   "regex": "(?i)\\bas an ai\\b|\\bas a language model\\b",
+   "name": "Model self-reference",
+   "fix": "Delete the sentence.",
+   "lang": "en"
+  },
+  {
+   "id": "in-summary",
+   "regex": "(?i)^\\s*(?:in summary|to summarize|in conclusion)\\b",
+   "name": "Essay-closer opener",
+   "fix": "A post does not need a conclusion paragraph.",
+   "lang": "en"
+  },
+  {
+   "id": "engagement-bait",
+   "regex": "(?i)\\b(?:agree\\?|thoughts\\?|who else\\b|am i wrong\\?)\\s*$",
+   "name": "Reflex engagement bait",
+   "fix": "Ask a question only you could ask, about the specific thing above it.",
+   "lang": "en"
+  },
+  {
+   "id": "stop-scroll",
+   "regex": "(?im)^\\s*(?:stop scrolling|don'?t scroll|wait[,.]? don'?t scroll)\\b",
+   "name": "\"Stop scrolling\" opener",
+   "fix": "The scroll-stop has to be the claim itself. Asking for attention is the tell that you have not earned it.",
+   "lang": "en"
+  },
+  {
+   "id": "in-this-video",
+   "regex": "(?i)\\b(?:in (?:this|today'?s) (?:video|reel|post)|today i'?m going to show you|i'?m going to (?:show|teach) you how)\\b",
+   "name": "Video preamble (\"in this video I'm going to show you\")",
+   "fix": "Delete it and start at the payoff. The first two seconds decide the whole reel.",
+   "lang": "en"
+  },
+  {
+   "id": "emoji-bullets",
+   "regex": "(?m)^\\s*[\\U0001F300-\\U0001FAFF✅➡⬅✔✨]\\s*\\S",
+   "name": "Emoji bullet list",
+   "fix": "Use a hyphen or a line break. Emoji bullets are the single most template-looking thing in a caption.",
+   "lang": "en"
+  },
+  {
+   "id": "caps-shout",
+   "regex": "\\b[A-Z]{3,}\\b(?:\\s+\\b[A-Z]{3,}\\b){2,}",
+   "name": "Three or more shouted words in a row",
+   "fix": "Caps are a volume knob, not a highlighter. One word, at most.",
+   "lang": "en"
+  },
+  {
+   "id": "follow-bait",
+   "regex": "(?i)\\b(?:follow for more|tag someone who|double tap if|share this if|comment below if)\\b",
+   "name": "Reflex follow or tag bait",
+   "fix": "Ask for the one action this post actually earns. The generic ask trains the audience to ignore every ask.",
+   "lang": "en"
+  },
+  {
+   "id": "fa-not-only",
+   "lang": "fa",
+   "regex": "(?:نه\\s+(?:فقط|تنها))[^.!؟?\\n]{2,80}\\s+بلکه",
+   "name": "«نه‌تنها X، بلکه Y»",
+   "fix": "دو تا جمله‌ش کن، یا نیمه‌ی ضعیف‌تر رو بردار."
+  },
+  {
+   "id": "fa-not-just",
+   "lang": "fa",
+   "regex": "(?:این|اون|آن)\\s+فقط\\s+(?:یه|یک)\\s+[^.!؟?\\n]{2,40}\\s+نیست[،,؛]?\\s*(?:بلکه|،)",
+   "name": "«این فقط یه X نیست، بلکه Y»",
+   "fix": "همون چیزی که واقعاً منظورته رو بگو. نصفه‌ی مقدمه رو پاک کن."
+  },
+  {
+   "id": "fa-isnt-about",
+   "lang": "fa",
+   "regex": "(?:موضوع|بحث|مسئله|مسأله)\\s+[^.!؟?\\n]{2,40}\\s+نیست[؛;،,.]\\s*(?:موضوع|بحث|مسئله|مسأله)",
+   "name": "«موضوع X نیست؛ موضوع Y‌ئه»",
+   "fix": "با Y شروع کن. خود این چرخش، نشونه‌ی متن ماشینیه."
+  },
+  {
+   "id": "fa-the-result",
+   "lang": "fa",
+   "regex": "(?m)^\\s*(?:نتیجه|نتیجه‌ش|بهترین\\s+قسمتش|جالبش|راز|نکته|حقیقت|اما\\s+نکته)\\s*[؟?:]\\s*$",
+   "name": "خط سؤالی یه‌کلمه‌ای («نتیجه؟»)",
+   "fix": "همون‌جا جواب بده، رونمایی نمایشی نکن."
+  },
+  {
+   "id": "fa-heres-what",
+   "lang": "fa",
+   "regex": "(?:چیزی|درسی)\\s+که\\s+(?:من\\s+)?(?:از\\s+این\\s+)?یاد\\s+گرفتم\\s+(?:اینه|این\\s+است|این‌ه)",
+   "name": "«چیزی که یاد گرفتم اینه»",
+   "fix": "خود درس رو بگو. اعلامش لازم نیست."
+  },
+  {
+   "id": "fa-triad",
+   "lang": "fa",
+   "regex": "[\\w‌]+،\\s*[\\w‌]+\\s+و\\s+[\\w‌]+[.!]",
+   "name": "سه‌تایی «X، Y و Z.»",
+   "fix": "دو تا یا چهار تا. سه‌تایی ریتم پیش‌فرض مدل‌هاست."
+  },
+  {
+   "id": "fa-as-an-ai",
+   "lang": "fa",
+   "regex": "به\\s+عنوان\\s+(?:یک|یه)\\s+(?:هوش\\s+مصنوعی|مدل\\s+زبانی|دستیار)",
+   "name": "اشاره‌ی مدل به خودش",
+   "fix": "جمله رو پاک کن."
+  },
+  {
+   "id": "fa-in-summary",
+   "lang": "fa",
+   "regex": "(?m)^\\s*(?:در\\s+نهایت|به\\s+طور\\s+خلاصه|در\\s+پایان|جمع‌بندی|نتیجه‌گیری|در\\s+کل)",
+   "name": "شروع با جمع‌بندی انشایی",
+   "fix": "پست نتیجه‌گیری لازم نداره."
+  },
+  {
+   "id": "fa-engagement-bait",
+   "lang": "fa",
+   "regex": "(?:موافقی\\s*[؟?]|نظرت\\s+چیه\\s*[؟?]|کی\\s+دیگه\\s+(?:اینطوریه|همینطوره)|منم\\s+همینطور\\s*[؟?])\\s*$",
+   "name": "طعمه‌ی تعامل بازتابی («نظرت چیه؟»)",
+   "fix": "سؤالی بپرس که فقط تو می‌تونی بپرسی، درباره‌ی همون چیز مشخص بالاش."
+  },
+  {
+   "id": "fa-stop-scroll",
+   "lang": "fa",
+   "regex": "(?m)^\\s*(?:اسکرول\\s+نکن|رد\\s+نشو|وایسا\\s+رد\\s+نشو|صبر\\s+کن)",
+   "name": "شروع با «اسکرول نکن»",
+   "fix": "توقف اسکرول باید خود ادعا باشه. خواهش برای توجه یعنی هنوز به دستش نیاوردی."
+  },
+  {
+   "id": "fa-in-this-video",
+   "lang": "fa",
+   "regex": "(?:تو|توی|در)\\s+(?:این|امروز)\\s*(?:ویدیو|ویدئو|ریلز|پست)|امروز\\s+(?:می‌خوام|میخوام|قراره|می‌خواهیم)",
+   "name": "مقدمه‌ی ویدیو («تو این ویدیو می‌خوام…»)",
+   "fix": "پاکش کن و با نتیجه شروع کن. دو ثانیه‌ی اول تکلیف کل ریلز رو روشن می‌کنه."
+  },
+  {
+   "id": "fa-follow-bait",
+   "lang": "fa",
+   "regex": "(?:فالو\\s+یادت\\s+نره|لایک\\s+یادت\\s+نره|تگ\\s+کن\\s+(?:کسی|رفیقی|دوستی)\\s+که|سیو\\s+کن\\s+که\\s+گمش\\s+نکنی|فالو\\s+کن\\s+برای\\s+(?:ویدیو|محتوا)ی?\\s+بیشتر)",
+   "name": "طعمه‌ی فالو و تگ بازتابی",
+   "fix": "فقط همون یه کاری رو بخواه که این پست واقعاً می‌ارزه."
+  },
+  {
+   "id": "fa-watch-till-end",
+   "lang": "fa",
+   "regex": "تا\\s+آخر\\s+(?:ویدیو\\s+)?(?:ببین|ببینید)",
+   "name": "«تا آخر ببین»",
+   "fix": "به‌جای خواهش، یه سؤال مشخص بذار که فقط آخر ویدیو جواب بگیره."
+  },
+  {
+   "id": "fa-written-register",
+   "lang": "fa",
+   "regex": "(?:می‌باشد|می‌باشند|گردید|می‌گردد|نمایید|می‌نمایید|(?<![\\w‌])لذا(?![\\w‌])|اینجانب)",
+   "name": "زبون کتابی تو متنی که قراره گفته بشه",
+   "fix": "همون‌طوری بنویس که به یه رفیق می‌گی. برای سناریو: humanize.py --spoken."
+  },
+  {
+   "id": "fa-listicle",
+   "lang": "fa",
+   "regex": "(?:\\d+|[۰-۹]+|ده|پنج|هفت)\\s+(?:تا\\s+)?ابزار\\s+(?:AI|هوش\\s+مصنوعی)\\s+که\\s+(?:زندگی|کار)",
+   "name": "لیست «۱۰ ابزار AI که زندگیتو عوض می‌کنه»",
+   "fix": "این قالب ویو می‌گیره و فالو نه. یه ابزار، یه مشکل واقعی، یه نتیجه."
+  }
+ ]
+}

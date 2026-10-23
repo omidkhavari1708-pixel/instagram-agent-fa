@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "instagram-agent-fa",
+  "description": "بسته‌ی اسکیل اینستاگرام فارسی برای Claude · Persian Instagram skill pack",
+  "owner": {
+    "name": "Omid Khavari (OMID)",
+    "url": "https://www.instagram.com/itsomid1.ai/"
+  },
+  "plugins": [
+    {
+      "name": "instagram-agent-fa",
+      "description": "سیزده اسکیل برای ساختن و اداره‌ی پیج اینستاگرام فارسی، با ابزارهای پایتونی که فارسی رو درست می‌شمرن.",
+      "source": "./",
+      "category": "productivity",
+      "homepage": "https://github.com/omidkhavari1708-pixel/instagram-agent-fa"
+    }
+  ]
+}

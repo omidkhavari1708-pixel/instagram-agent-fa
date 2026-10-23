@@ -1,0 +1,13 @@
+{
+  "name": "instagram-agent-fa",
+  "description": "سیزده اسکیل Claude برای اینستاگرام فارسی: ریلز با ۲۷ فرمول هوک و امتیاز، تحقیق وایرال، کپشن با بررسی خودکار، کاروسل، استوری، پروفایل، برنامه‌ی هفته با تقویم شمسی، کامنت، جواب، دایرکت، بازیافت محتوا، کالبدشکافی آمار، و انسانی‌ساز فارسی که نیم‌فاصله رو خراب نمی‌کنه. Thirteen Claude skills for Persian Instagram, adapted from instagram-agent-skill.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Omid Khavari (OMID)",
+    "url": "https://www.instagram.com/itsomid1.ai/"
+  },
+  "homepage": "https://github.com/omidkhavari1708-pixel/instagram-agent-fa",
+  "repository": "https://github.com/omidkhavari1708-pixel/instagram-agent-fa",
+  "license": "MIT",
+  "keywords": ["instagram", "persian", "farsi", "iran", "reels", "content", "humanizer", "فارسی", "اینستاگرام"]
+}
