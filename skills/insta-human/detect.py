@@ -159,6 +159,13 @@ def check_voice(text, lex):
 
 
 CHECKS = ["BURSTINESS", "SPECIFICITY", "SLOP DENSITY", "FINGERPRINT", "VOICE"]
+SHORT = "too short to judge"
+
+
+def judged(results):
+    """Checks that had enough text to score. A comment or a one-line hook is too short for
+    burstiness, specificity and voice; their neutral 50 must not sink the verdict below 55."""
+    return [c for c in CHECKS if results[c][1] != SHORT] or CHECKS
 
 
 def run(text, lex):
@@ -169,7 +176,7 @@ def run(text, lex):
         "FINGERPRINT": check_fingerprint(text),
         "VOICE": check_voice(text, lex),
     }
-    scores = [results[c][0] for c in CHECKS]
+    scores = [results[c][0] for c in judged(results)]
     overall = statistics.mean(scores) * 0.6 + min(scores) * 0.4
     verdict = "PASS" if overall >= 70 and min(scores) >= 55 else (
         "REVIEW" if overall >= 50 else "FLAGGED")
@@ -191,8 +198,11 @@ def render(results, overall, verdict, label=None, out=sys.stdout):
         print(f"  {'':<13} {detail}", file=out)
     print("-" * 62, file=out)
     print(f"  {'HUMAN SCORE':<13} {bar(overall)} {overall:5.1f}   {verdict}", file=out)
+    skipped = [c for c in CHECKS if c not in judged(results)]
+    if skipped:
+        print(f"  {'':<13} not scored, text too short: {', '.join(skipped)}", file=out)
     if verdict != "PASS":
-        weakest = min(CHECKS, key=lambda c: results[c][0])
+        weakest = min(judged(results), key=lambda c: results[c][0])
         print(f"\n  Weakest signal: {weakest}. Fix that first.", file=out)
     print("", file=out)
 

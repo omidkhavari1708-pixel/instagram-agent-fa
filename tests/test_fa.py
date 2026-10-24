@@ -201,6 +201,17 @@ class Detect(unittest.TestCase):
         _, h, _ = detect.run(human, LEX)
         self.assertLess(m, h - 20)
 
+    def test_short_comment_can_pass(self):
+        # Found by running /insta-comment for real: a 2-3 sentence comment got a neutral 50 on
+        # BURSTINESS ("too short to judge"), and the verdict needs every check >= 55, so no
+        # comment could ever PASS. Unjudged checks are now left out of the verdict.
+        comment = "Real question. When Duet waits for your okay, does it show the exact text it's about to send?"
+        results, overall, verdict = detect.run(comment, LEX)
+        self.assertEqual(results["BURSTINESS"][1], "too short to judge")
+        self.assertEqual(verdict, "PASS")
+        slop = "This is a game-changer. It will revolutionize everything. Truly seamless."
+        self.assertNotEqual(detect.run(slop, LEX)[2], "PASS")
+
 
 class Packaging(unittest.TestCase):
 
