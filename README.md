@@ -77,6 +77,44 @@ Copy-Item -Recurse instagram-agent-fa\skills\insta-* $HOME\.claude\skills\
 
 بعد ده دقیقه برای `templates/voice.md` وقت بذار. کپیش کن تو `~/.claude/instagram/voice.md` و پرش کن، یا سه تا از ریلزهای خودت رو به Claude بده و بگو «voice.md منو از روی این‌ها بنویس». همه‌ی اسکیل‌ها اینو می‌خونن.
 
+## وصل کردن به پیجت
+
+سه راه داری. هیچ‌کدوم رمز پیجت رو نمی‌خوان.
+
+| راه | چی می‌بینه | برای کی |
+| --- | --- | --- |
+| **۱ · اسکرین‌شات و متن** | فقط چیزی که خودت می‌دی | همه؛ بدون هیچ دسترسی |
+| **۲ · Claude in Chrome** | آمار، کامنت و دایرکت، تو کروم خودت که خودت توش لاگین کردی | پیشنهادی، از ایران هم کار می‌کنه |
+| **۳ · API رسمی Meta** | آمار و دایرکت، فقط‌خواندنی؛ ارسال فقط با تأیید | حساب حرفه‌ای + اپ توسعه‌دهنده‌ی Meta (از ایران باز نمی‌شه) |
+
+**راه ۱:**
+- تو اپ گوشی روی هر ریلز بزن **View insights** و اسکرین‌شات بگیر. نمودار نگه‌داشت فقط تو اپه.
+- بعد بفرست و بگو: «/insta-audit این‌ها رو بخون».
+
+**راه ۲:**
+1. [افزونه‌ی Claude in Chrome](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn) رو نصب کن (نسخه‌ی ۱.۰.۳۶ به بالا). با همون حساب Claude Code وارد شو (پلن Pro یا Max).
+2. Claude Code رو با `claude --chrome` باز کن. برای همیشه روشن موندنش: `/chrome` ← **Enabled by default**.
+3. تو همون کروم خودت برو instagram.com و لاگین کن. رمز و کد تأیید رو همیشه خودت می‌زنی؛ Claude سر صفحه‌ی لاگین یا CAPTCHA می‌ایسته و از تو می‌خواد.
+4. بگو: «با کروم برو تو اینستاگرامم و آمار ۹ تا ریلز آخرم رو با /insta-audit بخون». وقتی پرسید `Claude in Chrome wants to…`، برای instagram.com اجازه بده.
+
+**از ایران:** اگه فیلترشکنت کل سیستم رو رد نمی‌کنه، یه پروفایل جدا از کروم با پروکسیش باز کن و افزونه رو تو همون پروفایل نصب کن:
+
+```powershell
+& "C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir="$env:LOCALAPPDATA\chrome-insta" --proxy-server=http://127.0.0.1:PORT
+```
+
+**راه ۳:** [`connect/ig_insights.py`](connect/ig_insights.py)
+- توکن «Instagram API with Instagram Login» رو تو `~/.claude/instagram/.ig_token` بذار، بعد:
+  - `python3 connect/ig_insights.py --check`
+  - `python3 connect/ig_insights.py`
+- خروجی تو `insights.md` نوشته می‌شه.
+- هر ۵۰ روز یه بار `--refresh` بزن.
+- ارسال دایرکت فقط با `--send … --text-file … --yes` ممکنه.
+
+**پس گرفتن دسترسی:**
+- **کروم:** افزونه رو از `chrome://extensions` بردار.
+- **API:** اپ رو از تنظیمات اینستاگرام بردار (**Website permissions ← Apps and websites**).
+
 ## سیزده تا
 
 | دستور | کارش |
@@ -122,10 +160,10 @@ HOOK RANKING
 
 ## ریزنویس، که بخش صادقانه‌ست
 
-**این اسکیل‌ها تو اینستاگرام چیزی منتشر نمی‌کنن.**
-- برای اینستاگرام یه API رسمی انتشار هست. ولی اپ توسعه‌دهنده‌ی Meta، توکن و بازبینی می‌خواد، و از ایران معمولاً در دسترس نیست.
-- بقیه‌ی راه‌هایی که برای خودکار کردن پست، کامنت، فالو یا دایرکت استفاده می‌شن، یا اتوماسیون مرورگرن یا ابزار شخص ثالث. هر دو خلاف [قوانین اینستاگرام](https://help.instagram.com/581066165581870)ان و حساب رو محدود می‌کنن.
-- پس هر اسکیل این‌جوری تموم می‌شه: یه بلوک آماده‌ی کپی، که تو منتشرش می‌کنی.
+**این اسکیل‌ها خودشون تو اینستاگرام چیزی منتشر نمی‌کنن.**
+- هر اسکیل با یه بلوک آماده‌ی کپی تموم می‌شه که تو منتشرش می‌کنی.
+- اگه از راه ۲ (Claude in Chrome) وصلی، Claude می‌تونه یه کامنت، جواب یا تغییر بایو رو برات بذاره. ولی فقط بعد از اینکه **همون متن دقیق** رو تأیید کردی، یکی‌یکی، با سرعت آدم.
+- کامنت، فالو یا دایرکت خودکار و دسته‌جمعی خلاف [قوانین اینستاگرام](https://help.instagram.com/581066165581870)ه و حساب رو محدود می‌کنه. این بسته هیچ‌وقت انجامش نمی‌ده.
 
 **هیچ‌وقت رمز پیجت رو به هیچ اسکیل، اسکریپت یا سرویسی نده.**
 
@@ -150,7 +188,11 @@ HOOK RANKING
 python3 -m unittest discover tests -v
 ```
 
-۲۷ تست. دو تا باگ اصلی، یعنی پاک شدن نیم‌فاصله و نشمردن کلمه‌ی فارسی، اول از همه تست می‌شن. امتیاز هوک‌های انگلیسی دقیقاً با نسخه‌ی اصلی برابره.
+۳۱ تست.
+- دو تا باگ اصلی، یعنی پاک شدن نیم‌فاصله و نشمردن کلمه‌ی فارسی، اول از همه تست می‌شن.
+- امتیاز هوک‌های انگلیسی دقیقاً با نسخه‌ی اصلی برابره.
+- یه باگ هم از اجرای واقعی پیدا شد و درست شد: `detect.py` به کامنت ۱ تا ۳ جمله‌ای هیچ‌وقت PASS نمی‌داد.
+- قانون‌های امنیتی اسکریپت اتصال هم تست می‌شن: بدون `--yes` چیزی نمی‌فرسته، و توکن تو خطاها لو نمی‌ره.
 
 ## فایل‌ها
 
@@ -166,6 +208,7 @@ skills/insta-human/fatext.py         هسته‌ی متن فارسی (یه نس�
 skills/insta-viral/swipe.py          رتبه‌بندی با ضریب جهش و اسم‌گذاری فرمول
 skills/insta-profile/rubric.json     جدول ۱۰۰ امتیازی پروفایل
 templates/voice.md                   پروفایل صدای تو. اول اینو پر کن.
+connect/ig_insights.py               راه ۳: آمار و دایرکت از API رسمی Meta، فقط‌خواندنی؛ ارسال فقط با --yes
 ```
 
 ## سازنده‌ها
@@ -195,6 +238,11 @@ It also adds:
 - Persian caption checks.
 - Iran-specific guidance: the Jalali calendar, Tehran time, access questions, and VPN notes.
 
-English input still works, and English hook scores match the original exactly. There are 27 tests: `python3 -m unittest discover tests -v`.
+English input still works, and English hook scores match the original exactly. There are 31 tests: `python3 -m unittest discover tests -v`.
+
+**Connecting your account** (no password ever):
+1. Paste screenshots or text.
+2. [Claude in Chrome](https://code.claude.com/docs/en/chrome): run `claude --chrome`, then log in to instagram.com yourself. Claude reads insights, comments and DMs, and only posts the exact text you approve.
+3. The official API: `connect/ig_insights.py`. You need a token for "Instagram API with Instagram Login" with `instagram_business_basic` and `instagram_business_manage_insights`, plus `instagram_business_manage_messages` for DMs. It is read-only; sending a DM needs `--yes`.
 
 It never posts, never logs in, and never asks for a password. License: MIT, with both copyright holders listed.

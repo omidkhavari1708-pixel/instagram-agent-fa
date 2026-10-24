@@ -213,6 +213,51 @@ class Detect(unittest.TestCase):
         self.assertNotEqual(detect.run(slop, LEX)[2], "PASS")
 
 
+class Connect(unittest.TestCase):
+    """connect/ig_insights.py: the official-API route. Safety rules, no network."""
+
+    SCRIPT = os.path.join(ROOT, "connect", "ig_insights.py")
+
+    def run_script(self, *args):
+        import subprocess
+        env = dict(os.environ, PYTHONIOENCODING="utf-8", HTTPS_PROXY="")
+        return subprocess.run([sys.executable, self.SCRIPT, *args], capture_output=True,
+                              text=True, encoding="utf-8", env=env, timeout=30)
+
+    def test_send_refuses_without_yes(self):
+        r = self.run_script("--send", "123", "--text-file", "x.txt")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("--yes", r.stderr + r.stdout)
+
+    def test_no_personal_defaults(self):
+        src = open(self.SCRIPT, encoding="utf-8").read()
+        self.assertNotIn("12334", src)      # no hard-wired proxy port
+        self.assertNotIn("print(token", src)
+
+    def test_token_is_masked_in_errors(self):
+        import io
+        import urllib.error
+        ig = load_path(self.SCRIPT, "ig_insights")
+        token = "IGAAsecret" + "x" * 60
+        body = json.dumps({"error": {"message": f"Invalid OAuth access token {token}"}}).encode()
+
+        class FakeOpener:
+            def open(self, url, timeout=None):
+                raise urllib.error.HTTPError(url, 400, "Bad Request", {}, io.BytesIO(body))
+
+        with self.assertRaises(ig.ApiError) as cm:
+            ig.get(FakeOpener(), "me", token)
+        self.assertNotIn(token, str(cm.exception))
+        self.assertIn("***", str(cm.exception))
+
+
+def load_path(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 class Packaging(unittest.TestCase):
 
     def test_fatext_copies_identical(self):
